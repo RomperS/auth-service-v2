@@ -6,9 +6,6 @@ import com.olo.permissions.Role;
 import com.olo.permissions.Title;
 
 public record CreateUserCommand(
-        String username,
-        String email,
-        String password,
         Role role,
         Title title
 ) {
@@ -20,7 +17,7 @@ public record CreateUserCommand(
         if (!finalTitle.getRole().equals(command.role)) {
             throw new InvalidPermissionValueException("Title and role do not match, invalid values");
         }
-        return new CreateUserCommand(command.username, command.email, command.password, command.role, finalTitle);
+        return new CreateUserCommand(command.role, finalTitle);
     }
 
 }
