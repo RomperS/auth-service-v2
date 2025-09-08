@@ -31,7 +31,7 @@ public class SignupImpl implements SignupPort {
     @Override
     public AuthResult signup(SignupCommand command, String token) {
         String type = jwtServicePort.getTokenType(token);
-        if (!type.equals("activate") || !jwtServicePort.validateToken(token)) {
+        if (!type.equals("activate_token") || !jwtServicePort.validateToken(token)) {
             throw new InvalidTokenException("Invalid token");
         }
 
