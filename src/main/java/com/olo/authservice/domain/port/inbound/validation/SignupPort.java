@@ -1,8 +1,8 @@
 package com.olo.authservice.domain.port.inbound.validation;
 
 import com.olo.authservice.domain.command.SignupCommand;
-import com.olo.authservice.domain.model.User;
+import com.olo.authservice.domain.result.AuthResult;
 
 public interface SignupPort {
-    User signup(SignupCommand command);
+    AuthResult signup(SignupCommand command);
 }
