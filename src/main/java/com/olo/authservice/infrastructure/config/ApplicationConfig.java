@@ -6,10 +6,7 @@ import com.olo.authservice.application.service.UserService;
 import com.olo.authservice.application.service.ValidationService;
 import com.olo.authservice.application.usecase.permissions.AssignBoardRoleImpl;
 import com.olo.authservice.application.usecase.permissions.RevokeBoardRoleImpl;
-import com.olo.authservice.application.usecase.tokens.CreateTokenImpl;
-import com.olo.authservice.application.usecase.tokens.GenerateAccessTokenImpl;
-import com.olo.authservice.application.usecase.tokens.GetActiveUserTokensImpl;
-import com.olo.authservice.application.usecase.tokens.RevokeTokenImpl;
+import com.olo.authservice.application.usecase.tokens.*;
 import com.olo.authservice.application.usecase.users.CreateUserImpl;
 import com.olo.authservice.application.usecase.users.LockUserImpl;
 import com.olo.authservice.application.usecase.users.UnlockUserImpl;
@@ -19,6 +16,7 @@ import com.olo.authservice.application.usecase.validation.LogoutImpl;
 import com.olo.authservice.application.usecase.validation.SignupImpl;
 import com.olo.authservice.application.usecase.validation.ValidateTokenImpl;
 import com.olo.authservice.domain.port.outbound.*;
+import com.olo.authservice.infrastructure.adapters.EmailServiceAdapter;
 import com.olo.authservice.infrastructure.adapters.KafkaServiceAdapter;
 import com.olo.authservice.infrastructure.adapters.TokenRepositoryAdapter;
 import com.olo.authservice.infrastructure.adapters.UserRepositoryAdapter;
@@ -47,9 +45,19 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public UserService userService(UserRepositoryPort userRepositoryPort, PasswordServicePort passwordServicePort, CommonStringPort commonStringPort) {
+    public EmailServicePort emailServicePort(EmailServiceAdapter emailServiceAdapter) {
+        return emailServiceAdapter;
+    }
+
+    @Bean
+    public UserService userService(UserRepositoryPort userRepositoryPort,
+                                   PasswordServicePort passwordServicePort,
+                                   CommonStringPort commonStringPort,
+                                   EmailServicePort emailServicePort,
+                                   TokenService tokenService) {
+
         return new UserService(
-                new CreateUserImpl(userRepositoryPort, commonStringPort),
+                new CreateUserImpl(userRepositoryPort, commonStringPort, emailServicePort, tokenService),
                 new LockUserImpl(userRepositoryPort),
                 new UnlockUserImpl(userRepositoryPort),
                 new UpdateUserImpl(userRepositoryPort, passwordServicePort)
@@ -57,10 +65,11 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public TokenService tokenService(TokenRepositoryPort tokenRepositoryPort, JwtServicePort jwtServicePort) {
+    public TokenService tokenService(TokenRepositoryPort tokenRepositoryPort, JwtServicePort jwtServicePort, UserRepositoryPort userRepositoryPort) {
         return new TokenService(
                 new CreateTokenImpl(tokenRepositoryPort, jwtServicePort),
                 new GenerateAccessTokenImpl(tokenRepositoryPort, jwtServicePort),
+                new GenerateActivateTokenImpl(userRepositoryPort, jwtServicePort),
                 new GetActiveUserTokensImpl(tokenRepositoryPort),
                 new RevokeTokenImpl(tokenRepositoryPort)
         );

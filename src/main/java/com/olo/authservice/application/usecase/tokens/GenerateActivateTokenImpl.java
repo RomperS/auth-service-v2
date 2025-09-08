@@ -14,7 +14,7 @@ public class GenerateActivateTokenImpl implements GenerateActivationTokenPort {
     private final JwtServicePort jwtServicePort;
 
     @Override
-    public String activationTokenGenerate(Long userId) {
+    public String generateActivationToken(Long userId) {
         User user = userRepositoryPort.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         return jwtServicePort.generateActivateToken(user.username());

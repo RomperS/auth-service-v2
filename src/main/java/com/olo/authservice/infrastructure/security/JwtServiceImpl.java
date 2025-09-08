@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -75,10 +74,20 @@ public class JwtServiceImpl implements JwtServicePort {
         long expirationMillis = jwtRefreshTokenExpiration * 24 * 60 * 60 * 1000L;
         return buildToken(claims, userDetails.getUsername(), expirationMillis);
     }
-// --------------------------------------------------------------------------------------------------------------------------
+
     @Override
     public String generateActivateToken(String username) {
-        return "";
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        Map<String, Object> claims = new HashMap<>();
+
+        if (userDetails instanceof CustomUserDetails customDetails) {
+            claims.put("userId", customDetails.getId());
+        }
+        claims.put("type", "activate_token");
+
+        long expirationMillis = 24 * 60 * 60 * 1000L;
+        return buildToken(claims, userDetails.getUsername(), expirationMillis);
     }
 
     @Override
