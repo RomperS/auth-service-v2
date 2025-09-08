@@ -12,10 +12,11 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class TokenService implements CreateTokenPort, GenerateAccessTokenPort, GetActiveUserTokensPort, RevokeTokenPort {
+public class TokenService implements CreateTokenPort, GenerateAccessTokenPort, GenerateActivationTokenPort, GetActiveUserTokensPort, RevokeTokenPort {
 
     private final CreateTokenImpl createTokenImpl;
     private final GenerateAccessTokenImpl generateAccessTokenImpl;
+    private final GenerateActivateTokenImpl  generateActivateTokenImpl;
     private final GetActiveUserTokensImpl getActiveUserTokensImpl;
     private final RevokeTokenImpl revokeTokenImpl;
 
@@ -28,6 +29,12 @@ public class TokenService implements CreateTokenPort, GenerateAccessTokenPort, G
     public String generateAccessToken(String token) {
         return generateAccessTokenImpl.generateAccessToken(token);
     }
+
+    @Override
+    public String generateActivationToken(Long userId) {
+        return generateActivateTokenImpl.generateActivationToken(userId);
+    }
+
 
     @Override
     public List<Token> getActiveUserToken(String username) {
