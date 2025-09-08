@@ -18,8 +18,8 @@ import com.olo.authservice.application.usecase.validation.LoginImpl;
 import com.olo.authservice.application.usecase.validation.LogoutImpl;
 import com.olo.authservice.application.usecase.validation.SignupImpl;
 import com.olo.authservice.application.usecase.validation.ValidateTokenImpl;
-import com.olo.authservice.domain.port.inbound.validation.LoginPort;
 import com.olo.authservice.domain.port.outbound.*;
+import com.olo.authservice.infrastructure.adapters.KafkaServiceAdapter;
 import com.olo.authservice.infrastructure.adapters.TokenRepositoryAdapter;
 import com.olo.authservice.infrastructure.adapters.UserRepositoryAdapter;
 import com.olo.authservice.infrastructure.repositories.JpaTokenRepository;
@@ -39,6 +39,11 @@ public class ApplicationConfig {
     @Bean
     public TokenRepositoryPort tokenRepositoryPort(TokenRepositoryAdapter tokenRepositoryAdapter) {
         return tokenRepositoryAdapter;
+    }
+
+    @Bean
+    public KafkaServicePort kafkaServicePort(KafkaServiceAdapter kafkaServiceAdapter) {
+        return kafkaServiceAdapter;
     }
 
     @Bean
@@ -74,11 +79,12 @@ public class ApplicationConfig {
                                                UserRepositoryPort userRepositoryPort,
                                                TokenService tokenService,
                                                UserService userService,
-                                               JwtServicePort jwtServicePort) {
+                                               JwtServicePort jwtServicePort,
+                                               KafkaServicePort kafkaServicePort) {
         return new ValidationService(
                 new LoginImpl(userRepositoryPort, tokenService, passwordServicePort, jwtServicePort),
                 new LogoutImpl(tokenService, userRepositoryPort, jwtServicePort),
-                new SignupImpl(userService, tokenService, jwtServicePort),
+                new SignupImpl(userService, tokenService, jwtServicePort, kafkaServicePort),
                 new ValidateTokenImpl(jwtServicePort)
         );
     }
