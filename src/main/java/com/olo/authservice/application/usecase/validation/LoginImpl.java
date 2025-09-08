@@ -2,6 +2,7 @@ package com.olo.authservice.application.usecase.validation;
 
 import com.olo.authservice.application.service.TokenService;
 import com.olo.authservice.domain.command.LoginCommand;
+import com.olo.authservice.domain.exception.user.AccountLockedException;
 import com.olo.authservice.domain.exception.user.InvalidCredentialsException;
 import com.olo.authservice.domain.exception.user.UserNotFoundException;
 import com.olo.authservice.domain.model.Token;
@@ -29,6 +30,9 @@ public class LoginImpl implements LoginPort {
     public AuthResult login(LoginCommand command) {
         User user = userRepositoryPort.findByUsername(command.username()).orElseThrow(() -> new UserNotFoundException("User not found"));
 
+        if (user.accountLocked()){
+            throw new AccountLockedException("Account is locked");
+        }
         if (!passwordServicePort.matches(command.password(), user.password())) {
             throw new InvalidCredentialsException("Invalid credentials");
         }
