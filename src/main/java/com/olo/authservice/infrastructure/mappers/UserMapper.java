@@ -1,6 +1,8 @@
 package com.olo.authservice.infrastructure.mappers;
 
+import com.olo.authservice.domain.command.CreateUserCommand;
 import com.olo.authservice.domain.model.User;
+import com.olo.authservice.infrastructure.dtos.request.CreateUserRequestDto;
 import com.olo.authservice.infrastructure.entities.UserEntity;
 
 public class UserMapper {
@@ -34,6 +36,18 @@ public class UserMapper {
                 user.accountLocked(),
                 user.roles(),
                 user.titles()
+        );
+    }
+
+    public static CreateUserCommand createRequestDtoToCommand(CreateUserRequestDto createUserRequestDto) {
+        if (createUserRequestDto == null) {
+            return null;
+        }
+
+        return new CreateUserCommand(
+                createUserRequestDto.email(),
+                createUserRequestDto.role(),
+                createUserRequestDto.title()
         );
     }
 }
