@@ -1,0 +1,8 @@
+### POST request to auth-service for login
+POST {{baseUrl}}/validation/login
+Content-Type: application/json
+
+{
+  "username": "Oswaldolo663",
+  "password": "Oswaldolo089"
+}
