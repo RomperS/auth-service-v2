@@ -27,8 +27,8 @@ public class ValidationService implements LoginPort, LogoutPort, SignupPort, Val
     }
 
     @Override
-    public AuthResult signup(SignupCommand command) {
-        return  signupImpl.signup(command);
+    public AuthResult signup(SignupCommand command, String token) {
+        return  signupImpl.signup(command, token);
     }
 
     @Override
