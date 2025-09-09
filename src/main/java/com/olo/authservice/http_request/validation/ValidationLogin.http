@@ -3,6 +3,6 @@ POST {{baseUrl}}/validation/login
 Content-Type: application/json
 
 {
-  "username": "Oswaldolo663",
+  "username": "OswaldoAdmin",
   "password": "Oswaldolo089"
 }

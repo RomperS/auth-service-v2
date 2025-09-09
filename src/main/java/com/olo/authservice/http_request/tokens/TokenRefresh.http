@@ -1,0 +1,3 @@
+### GET request to example server
+GET {{baseUrl}}/tokens/refresh
+Authorization: Bearer {{admin-token}}

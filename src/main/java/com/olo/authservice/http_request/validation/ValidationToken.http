@@ -1,4 +1,4 @@
 ### GET request to auth-service for validate token and get token type
 GET {{baseUrl}}/validation/token
-Authorization: Bearer {{active_token}}
+Authorization: Bearer {{admin-token}}
 Content-Type: application/json

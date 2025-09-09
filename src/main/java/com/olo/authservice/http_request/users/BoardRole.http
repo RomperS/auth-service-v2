@@ -1,0 +1,7 @@
+###
+POST {{baseUrl}}/permissions/add/{{userId}}
+Authorization: Bearer {{admin-token}}
+###
+POST {{baseUrl}}/permissions/remove/{{userId}}
+Authorization: Bearer {{admin-token}}
+
