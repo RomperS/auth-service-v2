@@ -17,9 +17,9 @@ import com.olo.authservice.application.usecase.validation.SignupImpl;
 import com.olo.authservice.application.usecase.validation.ValidateTokenImpl;
 import com.olo.authservice.domain.port.outbound.*;
 import com.olo.authservice.infrastructure.adapters.EmailServiceAdapter;
-import com.olo.authservice.infrastructure.adapters.KafkaServiceAdapter;
-import com.olo.authservice.infrastructure.adapters.TokenRepositoryAdapter;
-import com.olo.authservice.infrastructure.adapters.UserRepositoryAdapter;
+import com.olo.authservice.infrastructure.adapters.kafka.KafkaProducerAdapter;
+import com.olo.authservice.infrastructure.adapters.repository.TokenRepositoryAdapter;
+import com.olo.authservice.infrastructure.adapters.repository.UserRepositoryAdapter;
 import com.olo.authservice.infrastructure.repositories.JpaTokenRepository;
 import com.olo.authservice.infrastructure.security.JwtServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -40,8 +40,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public KafkaServicePort kafkaServicePort(KafkaServiceAdapter kafkaServiceAdapter) {
-        return kafkaServiceAdapter;
+    public KafkaProducerPort kafkaProducerPort(KafkaProducerAdapter kafkaProducerAdapter) {
+        return kafkaProducerAdapter;
     }
 
     @Bean
@@ -89,11 +89,11 @@ public class ApplicationConfig {
                                                TokenService tokenService,
                                                UserService userService,
                                                JwtServicePort jwtServicePort,
-                                               KafkaServicePort kafkaServicePort) {
+                                               KafkaProducerPort kafkaProducerPort) {
         return new ValidationService(
                 new LoginImpl(userRepositoryPort, tokenService, passwordServicePort, jwtServicePort),
                 new LogoutImpl(tokenService, userRepositoryPort, jwtServicePort),
-                new SignupImpl(userService, tokenService, jwtServicePort, kafkaServicePort),
+                new SignupImpl(userService, tokenService, jwtServicePort, kafkaProducerPort),
                 new ValidateTokenImpl(jwtServicePort)
         );
     }

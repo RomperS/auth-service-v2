@@ -11,7 +11,7 @@ import com.olo.authservice.domain.model.Token;
 import com.olo.authservice.domain.model.User;
 import com.olo.authservice.domain.port.inbound.validation.SignupPort;
 import com.olo.authservice.domain.port.outbound.JwtServicePort;
-import com.olo.authservice.domain.port.outbound.KafkaServicePort;
+import com.olo.authservice.domain.port.outbound.KafkaProducerPort;
 import com.olo.authservice.domain.result.AccessTokenResult;
 import com.olo.authservice.domain.result.AuthResult;
 import com.olo.permissions.Role;
@@ -26,7 +26,7 @@ public class SignupImpl implements SignupPort {
     private final UserService userService;
     private final TokenService tokenService;
     private final JwtServicePort  jwtServicePort;
-    private final KafkaServicePort kafkaServicePort;
+    private final KafkaProducerPort kafkaProducerPort;
 
     @Override
     public AuthResult signup(SignupCommand command, String token) {
@@ -74,6 +74,6 @@ public class SignupImpl implements SignupPort {
     }
 
     private void registerCredentials(PublishCredentialsCommand command) {
-        kafkaServicePort.publishCredentialsCreated(command);
+        kafkaProducerPort.publishCredentialsCreated(command);
     }
 }

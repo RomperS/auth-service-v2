@@ -1,4 +1,4 @@
-package com.olo.authservice.infrastructure.adapters;
+package com.olo.authservice.infrastructure.adapters.repository;
 
 import com.olo.authservice.domain.exception.user.UserNotFoundException;
 import com.olo.authservice.domain.model.Token;

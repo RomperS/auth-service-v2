@@ -1,4 +1,4 @@
-package com.olo.authservice.infrastructure.adapters;
+package com.olo.authservice.infrastructure.adapters.repository;
 
 import com.olo.authservice.domain.model.User;
 import com.olo.authservice.domain.port.outbound.UserRepositoryPort;
