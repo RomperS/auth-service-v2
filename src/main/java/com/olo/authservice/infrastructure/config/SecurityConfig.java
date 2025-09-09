@@ -37,7 +37,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
         http
                 .userDetailsService(userDetailsService)
-                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users/**","/validation/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
