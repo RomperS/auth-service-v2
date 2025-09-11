@@ -7,10 +7,12 @@ import com.olo.authservice.domain.command.EmailCommand;
 import com.olo.authservice.domain.model.User;
 import com.olo.authservice.domain.port.inbound.users.CreateUserPort;
 import com.olo.authservice.domain.port.outbound.EmailServicePort;
+import com.olo.authservice.domain.port.outbound.PasswordServicePort;
 import com.olo.authservice.domain.port.outbound.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public class CreateUserImpl implements CreateUserPort {
@@ -18,6 +20,9 @@ public class CreateUserImpl implements CreateUserPort {
     private final UserRepositoryPort userRepositoryPort;
     private final EmailServicePort emailServicePort;
     private final TokenService tokenService;
+    private final PasswordServicePort passwordServicePort;
+
+    private final String baseUrl;
 
     @Override
     @CustomTransactional
@@ -30,9 +35,9 @@ public class CreateUserImpl implements CreateUserPort {
         User user = new User(
                 null,
                 username,
-                null,
-                null,
-                true,
+                createUserCommand.dni(),
+                passwordServicePort.encode(password),
+                false,
                 List.of(createUserCommand.role()),
                 List.of(createUserCommand.title())
         );
@@ -41,18 +46,28 @@ public class CreateUserImpl implements CreateUserPort {
 
         String activateToken = tokenService.generateActivationToken(savedUser.id());
 
-        sendMail(activateToken, command.email());
+        sendMail(activateToken, command.email(), username, password);
 
-        return savedUser;
+        return new User(
+                savedUser.id(),
+                savedUser.username(),
+                savedUser.dni(),
+                null,
+                savedUser.accountLocked(),
+                savedUser.roles(),
+                savedUser.titles()
+        );
     }
 
-    public void sendMail(String activationToken, String email) {
-        String baseUrl = "http://127.0.0.1:5500/index.html?token=";
-
+    public void sendMail(String activationToken, String email, String username, String password) {
         String finalLink = baseUrl + "?token=" + activationToken;
 
-        String subject = "Finalizar registro";
-        String body = "Para terminar su registro, haga clic en el siguiente enlace: <a href='" + finalLink + "'>TERMINAR REGISTRO</a>";
+        String subject = "Account Activation & Temporary Credentials";
+        String body = "Hello, your account has been created successfully. "
+                + "\nYour temporary credentials are:"
+                + "\n - Username: " + username
+                + "\n - Password: " + password
+                + "\n\nPlease click the following link to finish your registration and change your password: <a href='" + finalLink + "'>COMPLETE REGISTRATION</a>";
 
         EmailCommand emailCommand = new EmailCommand(
                 email,
