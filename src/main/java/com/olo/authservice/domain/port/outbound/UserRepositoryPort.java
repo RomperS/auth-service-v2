@@ -16,8 +16,5 @@ public interface UserRepositoryPort {
 
     Optional<User> findById(Long id);
     Optional<User> findByUsername(String username);
-
-    List<User> findAll();
-    List<User> findUsersByRole(Role role);
-    List<User> findUsersByTitle(Title title);
+    Optional<User> findByDni(Long dni);
 }

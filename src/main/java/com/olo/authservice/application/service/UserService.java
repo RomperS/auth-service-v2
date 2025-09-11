@@ -8,9 +8,10 @@ import com.olo.authservice.domain.port.inbound.users.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UserService implements CreateUserPort, LockUserPort, UnlockUserPort, UpdateUserPort {
+public class UserService implements CreateUserPort, GetUserByDniPort, LockUserPort, UnlockUserPort, UpdateUserPort {
 
     private final CreateUserImpl createUserImpl;
+    private final GetUserByDniImpl getUserByDniImpl;
     private final LockUserImpl lockUserImpl;
     private final UnlockUserImpl unlockUserImpl;
     private final UpdateUserImpl updateUserImpl;
@@ -18,6 +19,11 @@ public class UserService implements CreateUserPort, LockUserPort, UnlockUserPort
     @Override
     public User createUser(CreateUserCommand command) {
         return createUserImpl.createUser(command);
+    }
+
+    @Override
+    public User getUserByDni(Long dni) {
+        return getUserByDniImpl.getUserByDni(dni);
     }
 
     @Override

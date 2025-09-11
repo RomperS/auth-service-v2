@@ -50,27 +50,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public List<User> findAll() {
-        return jpaUserRepository.findAll()
-                .stream()
-                .map(UserMapper::entityToModel)
-                .toList();
-    }
-
-    @Override
-    public List<User> findUsersByRole(Role role) {
-
-        return jpaUserRepository.findByRole(role)
-                .stream()
-                .map(UserMapper::entityToModel)
-                .toList();
-    }
-
-    @Override
-    public List<User> findUsersByTitle(Title title) {
-        return jpaUserRepository.findByTitle(title)
-                .stream()
-                .map(UserMapper::entityToModel)
-                .toList();
+    public Optional<User> findByDni(Long dni) {
+        return jpaUserRepository.findByDni(dni).map(UserMapper::entityToModel);
     }
 }
