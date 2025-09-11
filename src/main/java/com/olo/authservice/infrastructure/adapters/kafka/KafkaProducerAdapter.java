@@ -1,6 +1,5 @@
 package com.olo.authservice.infrastructure.adapters.kafka;
 
-import com.olo.authservice.domain.command.PublishCredentialsCommand;
 import com.olo.authservice.domain.port.outbound.KafkaProducerPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -13,8 +12,9 @@ public class KafkaProducerAdapter implements KafkaProducerPort {
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
-    public void publishCredentialsCreated(PublishCredentialsCommand command) {
-        String payload = String.format("{\"userId\":\"%s\",\"role\":\"%s\"}", command.userId(), command.role());
-        kafkaTemplate.send("credentials-created", payload);
+    public void createCompensationEvent(String exception, Long dni) {
+        String dniJson = (dni != null) ? String.valueOf(dni) : "null";
+        String payload = String.format("{\"exceptionMessage\":\"%s\", \"dni\":%s}", exception, dniJson);
+        kafkaTemplate.send("user-creation-compensation", payload);
     }
 }
