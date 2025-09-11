@@ -6,7 +6,6 @@ import com.olo.authservice.domain.command.CreateUserCommand;
 import com.olo.authservice.domain.command.EmailCommand;
 import com.olo.authservice.domain.model.User;
 import com.olo.authservice.domain.port.inbound.users.CreateUserPort;
-import com.olo.authservice.domain.port.outbound.CommonStringPort;
 import com.olo.authservice.domain.port.outbound.EmailServicePort;
 import com.olo.authservice.domain.port.outbound.UserRepositoryPort;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import java.util.List;
 public class CreateUserImpl implements CreateUserPort {
 
     private final UserRepositoryPort userRepositoryPort;
-    private final CommonStringPort commonStringPort;
     private final EmailServicePort emailServicePort;
     private final TokenService tokenService;
 
@@ -26,7 +24,8 @@ public class CreateUserImpl implements CreateUserPort {
     public User createUser(CreateUserCommand command) {
         CreateUserCommand createUserCommand = CreateUserCommand.of(command);
 
-        String username = createUserCommand.role().toString() + commonStringPort.randomAlphanumeric(10);
+        String username = UUID.randomUUID().toString().substring(0, 8);
+        String password = UUID.randomUUID().toString().substring(0, 16);
 
         User user = new User(
                 null,
