@@ -30,7 +30,7 @@ public class AssignBoardRoleImpl implements AssignBoardRolePort {
         User updatedUser = new User(
                 user.id(),
                 user.username(),
-                user.email(),
+                user.dni(),
                 user.password(),
                 user.accountLocked(),
                 new ArrayList<>(roles),

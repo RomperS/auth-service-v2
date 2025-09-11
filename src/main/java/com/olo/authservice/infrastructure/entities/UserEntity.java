@@ -21,7 +21,7 @@ public class UserEntity {
     private Long id;
 
     private String username;
-    private String email;
+    private Long dni;
     private String password;
 
     private boolean accountLocked;

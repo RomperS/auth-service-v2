@@ -25,7 +25,7 @@ public class RevokeBoardRoleImpl implements RevokeBoardRolePort {
         User updatedUser = new User(
                 user.id(),
                 user.username(),
-                user.email(),
+                user.dni(),
                 user.password(),
                 user.accountLocked(),
                 roles,

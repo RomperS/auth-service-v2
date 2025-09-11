@@ -21,7 +21,7 @@ public class UnlockUserImpl implements UnlockUserPort {
             User unlockedUser = new User(
                     user.id(),
                     user.username(),
-                    user.email(),
+                    user.dni(),
                     user.password(),
                     false,
                     user.roles(),

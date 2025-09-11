@@ -2,7 +2,6 @@ package com.olo.authservice.application.usecase.users;
 
 import com.olo.authservice.anotations.CustomTransactional;
 import com.olo.authservice.domain.command.UpdateUserCommand;
-import com.olo.authservice.domain.exception.user.EmailRegisteredException;
 import com.olo.authservice.domain.exception.user.UserNotFoundException;
 import com.olo.authservice.domain.exception.user.UsernameTakenException;
 import com.olo.authservice.domain.model.User;
@@ -32,17 +31,6 @@ public class UpdateUserImpl implements UpdateUserPort {
             newUsername = user.username();
         }
 
-        String newEmail = command.email();
-        if (newEmail != null && !newEmail.equals(user.email())) {
-            if (userRepositoryPort.existByEmail(newEmail)) {
-                throw new EmailRegisteredException(
-                        String.format("Email '%s' is already registered.", newEmail)
-                );
-            }
-        } else {
-            newEmail = user.email();
-        }
-
         String newPassword = command.password();
         if (newPassword != null) {
             newPassword = passwordServicePort.encode(newPassword);
@@ -53,7 +41,7 @@ public class UpdateUserImpl implements UpdateUserPort {
         User updatedUser = new User(
                 user.id(),
                 newUsername,
-                newEmail,
+                user.dni(),
                 newPassword,
                 user.accountLocked(),
                 user.roles(),

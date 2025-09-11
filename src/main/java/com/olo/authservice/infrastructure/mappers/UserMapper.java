@@ -15,7 +15,7 @@ public class UserMapper {
         return new User(
                 userEntity.getId(),
                 userEntity.getUsername(),
-                userEntity.getEmail(),
+                userEntity.getDni(),
                 userEntity.getPassword(),
                 userEntity.isAccountLocked(),
                 userEntity.getRoles(),
@@ -31,7 +31,7 @@ public class UserMapper {
         return new UserEntity(
                 user.id(),
                 user.username(),
-                user.email(),
+                user.dni(),
                 user.password(),
                 user.accountLocked(),
                 user.roles(),

@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface UserRepositoryPort {
 
     boolean existByUsername(String username);
-    boolean existByEmail(String email);
 
     User save(User user);
     void delete(Long id);

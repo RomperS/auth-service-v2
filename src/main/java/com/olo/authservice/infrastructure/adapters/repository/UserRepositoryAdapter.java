@@ -26,11 +26,6 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public boolean existByEmail(String email) {
-        return jpaUserRepository.existsByEmail(email);
-    }
-
-    @Override
     @Transactional
     public User save(User user) {
         UserEntity userEntity = UserMapper.modelToEntity(user);

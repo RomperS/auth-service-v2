@@ -8,7 +8,7 @@ import java.util.List;
 public record User(
         Long id,
         String username,
-        String email,
+        Long dni,
         String password,
         Boolean accountLocked,
         List<Role> roles,
