@@ -20,7 +20,7 @@ public class KafkaConsumerService {
 
     private final UserService userService;
 
-    @KafkaListener(topics = "createdUser", groupId = "auth-service-group")
+    @KafkaListener(topics = "created-user", groupId = "auth-service-group")
     public void createCredentials(String msg){
         String regex = "User with email '(.+?)', role '(.+?)' and title '(.+?)' created\\.";
         Pattern pattern = Pattern.compile(regex);
