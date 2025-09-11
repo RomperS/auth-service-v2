@@ -1,7 +1,7 @@
 package com.olo.authservice.application.usecase.validation;
 
 import com.olo.authservice.application.service.TokenService;
-import com.olo.authservice.domain.command.LoginCommand;
+import com.olo.authservice.domain.command.AuthCommand;
 import com.olo.authservice.domain.exception.user.AccountLockedException;
 import com.olo.authservice.domain.exception.user.InvalidCredentialsException;
 import com.olo.authservice.domain.exception.user.UserNotFoundException;
@@ -27,7 +27,7 @@ public class LoginImpl implements LoginPort {
     private final JwtServicePort jwtServicePort;
 
     @Override
-    public AuthResult login(LoginCommand command) {
+    public AuthResult login(AuthCommand command) {
         User user = userRepositoryPort.findByUsername(command.username()).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (user.accountLocked()){

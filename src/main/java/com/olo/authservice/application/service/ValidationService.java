@@ -1,8 +1,8 @@
 package com.olo.authservice.application.service;
 
 import com.olo.authservice.application.usecase.validation.*;
-import com.olo.authservice.domain.command.LoginCommand;
-import com.olo.authservice.domain.command.SignupCommand;
+import com.olo.authservice.domain.command.AuthCommand;
+import com.olo.authservice.domain.command.AuthCommand;
 import com.olo.authservice.domain.port.inbound.validation.*;
 import com.olo.authservice.domain.result.AuthResult;
 import com.olo.authservice.domain.result.ValidateTokenResult;
@@ -17,7 +17,7 @@ public class ValidationService implements LoginPort, LogoutPort, SignupPort, Val
     private final ValidateTokenImpl validateTokenImpl;
 
     @Override
-    public AuthResult login(LoginCommand command) {
+    public AuthResult login(AuthCommand command) {
         return loginImpl.login(command);
     }
 
@@ -27,7 +27,7 @@ public class ValidationService implements LoginPort, LogoutPort, SignupPort, Val
     }
 
     @Override
-    public AuthResult signup(SignupCommand command, String token) {
+    public AuthResult signup(AuthCommand command, String token) {
         return  signupImpl.signup(command, token);
     }
 

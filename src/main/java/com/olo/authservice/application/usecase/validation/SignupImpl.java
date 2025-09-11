@@ -2,8 +2,7 @@ package com.olo.authservice.application.usecase.validation;
 
 import com.olo.authservice.application.service.TokenService;
 import com.olo.authservice.application.service.UserService;
-import com.olo.authservice.domain.command.PublishCredentialsCommand;
-import com.olo.authservice.domain.command.SignupCommand;
+import com.olo.authservice.domain.command.AuthCommand;
 import com.olo.authservice.domain.command.UpdateUserCommand;
 import com.olo.authservice.domain.exception.token.InvalidTokenException;
 import com.olo.authservice.domain.exception.user.MalformedRecordException;
@@ -29,7 +28,7 @@ public class SignupImpl implements SignupPort {
     private final KafkaProducerPort kafkaProducerPort;
 
     @Override
-    public AuthResult signup(SignupCommand command, String token) {
+    public AuthResult signup(AuthCommand command, String token) {
         String type = jwtServicePort.getTokenType(token);
         if (!type.equals("activate_token") || !jwtServicePort.validateToken(token)) {
             throw new InvalidTokenException("Invalid token");
@@ -40,11 +39,12 @@ public class SignupImpl implements SignupPort {
         UpdateUserCommand updateCommand = new UpdateUserCommand(
                 userId,
                 command.username(),
-                command.email(),
                 command.password()
         );
 
         User updatedUser = userService.updateUser(updateCommand);
+
+        userService.unlockUser(updatedUser.id());
 
         Token refreshToken = tokenService.createToken(updatedUser.username());
 
@@ -56,13 +56,6 @@ public class SignupImpl implements SignupPort {
             throw new MalformedRecordException("Invalid roles");
         }
 
-        PublishCredentialsCommand publishCredentialsCommand = new PublishCredentialsCommand(
-                userId.toString(),
-                roles.get(0).toString()
-        );
-
-        registerCredentials(publishCredentialsCommand);
-
         return new AuthResult(
                 refreshToken.refreshToken(),
                 refreshToken.expiredAt(),
@@ -71,9 +64,5 @@ public class SignupImpl implements SignupPort {
                         expireAt
                 )
         );
-    }
-
-    private void registerCredentials(PublishCredentialsCommand command) {
-        kafkaProducerPort.publishCredentialsCreated(command);
     }
 }
