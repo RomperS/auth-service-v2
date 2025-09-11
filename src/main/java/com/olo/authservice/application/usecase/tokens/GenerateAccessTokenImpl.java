@@ -19,6 +19,9 @@ public class GenerateAccessTokenImpl implements GenerateAccessTokenPort {
     public String generateAccessToken(String token) {
         String jti = jwtServicePort.getJti(token);
 
+        if (!jwtServicePort.getTokenType(token).equals("refresh_token")) {
+            throw new InvalidTokenException("Invalid token type");
+        }
         Token refreshToken = tokenRepositoryPort.findByJti(jti).orElseThrow(() -> new TokenNotFoundException("Token not found"));
 
         if (refreshToken.isRevoked()) {
