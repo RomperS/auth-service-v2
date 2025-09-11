@@ -1,8 +1,9 @@
 package com.olo.authservice.infrastructure.mappers;
 
-import com.olo.authservice.domain.command.CreateUserCommand;
+import com.olo.authservice.domain.command.UpdateUserCommand;
 import com.olo.authservice.domain.model.User;
-import com.olo.authservice.infrastructure.dtos.request.CreateUserRequestDto;
+import com.olo.authservice.infrastructure.dtos.request.UpdateUserRequestDto;
+import com.olo.authservice.infrastructure.dtos.response.UserResponseDto;
 import com.olo.authservice.infrastructure.entities.UserEntity;
 
 public class UserMapper {
@@ -39,15 +40,26 @@ public class UserMapper {
         );
     }
 
-    public static CreateUserCommand createRequestDtoToCommand(CreateUserRequestDto createUserRequestDto) {
-        if (createUserRequestDto == null) {
+    public static UpdateUserCommand updateRequestDtoToCommand(UpdateUserRequestDto dto, Long userId) {
+        if (dto == null) {
             return null;
         }
 
-        return new CreateUserCommand(
-                createUserRequestDto.email(),
-                createUserRequestDto.role(),
-                createUserRequestDto.title()
+        return new UpdateUserCommand(
+                userId,
+                dto.username(),
+                dto.password()
+        );
+    }
+
+    public static UserResponseDto userToResponseDto(User user) {
+        if (user == null) {
+            return null;
+        }
+
+        return new UserResponseDto(
+                user.id(),
+                user.username()
         );
     }
 }
