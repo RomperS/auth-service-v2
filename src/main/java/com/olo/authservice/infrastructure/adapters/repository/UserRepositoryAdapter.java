@@ -53,4 +53,9 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     public Optional<User> findByDni(Long dni) {
         return jpaUserRepository.findByDni(dni).map(UserMapper::entityToModel);
     }
+
+    @Override
+    public Optional<User> findSuperAdmin() {
+        return jpaUserRepository.findAdmin().map(UserMapper::entityToModel);
+    }
 }

@@ -13,13 +13,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(
-        name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"user_id", "roles"}),
-                @UniqueConstraint(columnNames = {"user_id", "titles"})
-        }
-)
+@Table(name = "users")
 public class UserEntity {
 
     @Id
