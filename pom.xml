@@ -9,7 +9,7 @@
         <relativePath/> </parent>
     <groupId>com.olo</groupId>
     <artifactId>auth-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2</version>
     <name>auth-service</name>
     <description>auth-service</description>
     <url/>

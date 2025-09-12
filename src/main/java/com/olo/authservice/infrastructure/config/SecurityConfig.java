@@ -38,7 +38,8 @@ public class SecurityConfig {
                 .userDetailsService(userDetailsService)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/","/validation/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/users/","/validation/login").permitAll()
+                        .requestMatchers("/swagger/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("users/lock/**", "/users/unlock/**", "/permissions/**")
                             .hasAnyAuthority("AUTHORITY_SUPER_ADMIN::PRINCIPAL", "AUTHORITY_ADMIN::SECRETARY")
                         .anyRequest().authenticated()
