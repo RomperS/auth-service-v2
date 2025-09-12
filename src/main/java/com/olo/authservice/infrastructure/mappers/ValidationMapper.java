@@ -3,8 +3,7 @@ package com.olo.authservice.infrastructure.mappers;
 import com.olo.authservice.domain.command.AuthCommand;
 import com.olo.authservice.domain.result.AuthResult;
 import com.olo.authservice.domain.result.ValidateTokenResult;
-import com.olo.authservice.infrastructure.dtos.request.LoginRequestDto;
-import com.olo.authservice.infrastructure.dtos.request.SignupRequestDto;
+import com.olo.authservice.infrastructure.dtos.request.AuthRequestDto;
 import com.olo.authservice.infrastructure.dtos.response.*;
 
 public class ValidationMapper {
@@ -24,25 +23,14 @@ public class ValidationMapper {
         );
     }
 
-    public static AuthCommand loginRequestToLoginCommand(LoginRequestDto loginRequestDto){
-        if (loginRequestDto == null){
+    public static AuthCommand authRequestToAuthCommand(AuthRequestDto authRequestDto){
+        if (authRequestDto == null){
             return null;
         }
 
         return new AuthCommand(
-                loginRequestDto.username(),
-                loginRequestDto.password()
-        );
-    }
-
-    public static AuthCommand createUserRequestToCreateUserCommand(SignupRequestDto signupRequestDto){
-        if (signupRequestDto == null){
-            return null;
-        }
-
-        return new AuthCommand(
-                signupRequestDto.username(),
-                signupRequestDto.password()
+                authRequestDto.username(),
+                authRequestDto.password()
         );
     }
 

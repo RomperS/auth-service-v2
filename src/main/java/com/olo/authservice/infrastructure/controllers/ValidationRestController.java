@@ -3,8 +3,7 @@ package com.olo.authservice.infrastructure.controllers;
 import com.olo.authservice.application.service.ValidationService;
 import com.olo.authservice.domain.result.AuthResult;
 import com.olo.authservice.domain.result.ValidateTokenResult;
-import com.olo.authservice.infrastructure.dtos.request.LoginRequestDto;
-import com.olo.authservice.infrastructure.dtos.request.SignupRequestDto;
+import com.olo.authservice.infrastructure.dtos.request.AuthRequestDto;
 import com.olo.authservice.infrastructure.dtos.response.AuthResponseDto;
 import com.olo.authservice.infrastructure.dtos.response.ValidateTokenResponseDto;
 import com.olo.authservice.infrastructure.mappers.ValidationMapper;
@@ -21,8 +20,8 @@ public class ValidationRestController {
     private final ValidationService validationService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto requestDto) {
-        AuthResult result = validationService.login(ValidationMapper.loginRequestToLoginCommand(requestDto));
+    public ResponseEntity<AuthResponseDto> login(@RequestBody AuthRequestDto requestDto) {
+        AuthResult result = validationService.login(ValidationMapper.authRequestToAuthCommand(requestDto));
         return ResponseEntity.ok().body(ValidationMapper.authResultToResponseDto(result));
     }
 
@@ -34,9 +33,9 @@ public class ValidationRestController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponseDto> signup(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody SignupRequestDto requestDto) {
+    public ResponseEntity<AuthResponseDto> signup(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody AuthRequestDto requestDto) {
         String authToken = token.substring(7);
-        AuthResult result = validationService.signup(ValidationMapper.createUserRequestToCreateUserCommand(requestDto), authToken);
+        AuthResult result = validationService.signup(ValidationMapper.authRequestToAuthCommand(requestDto), authToken);
         return ResponseEntity.ok().body(ValidationMapper.authResultToResponseDto(result));
     }
 

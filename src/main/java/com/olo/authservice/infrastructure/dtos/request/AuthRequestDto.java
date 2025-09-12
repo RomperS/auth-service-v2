@@ -1,8 +1,7 @@
 package com.olo.authservice.infrastructure.dtos.request;
 
-public record SignupRequestDto(
+public record AuthRequestDto(
         String username,
-        String email,
         String password
 ) {
 }
