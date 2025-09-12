@@ -2,6 +2,8 @@ package com.olo.authservice.infrastructure.security;
 
 import com.olo.authservice.infrastructure.entities.UserEntity;
 import com.olo.authservice.infrastructure.repositories.JpaUserRepository;
+import com.olo.exceptions.permissions.InvalidPermissionValueException;
+import com.olo.permissions.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -24,11 +28,24 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserEntity user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+        Set<Role> userRoles = new HashSet<>(user.getRoles());
+        Set<Title> userTitles = new HashSet<>(user.getTitles());
+
+        for (Title title : userTitles) {
+            Role requiredRole = title.getRole();
+            if (!userRoles.contains(requiredRole)) {
+                throw new InvalidPermissionValueException("The user does not have the required role for the title: " + requiredRole.name());
+            }
+        }
+
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        user.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name() )));
-        user.getTitles().forEach(title -> authorities.add(new SimpleGrantedAuthority("TITLE_" + title.name())));
+        userTitles.forEach(title -> {
+            Role requiredRole = title.getRole();
+            String authority = String.format("AUTHORITY_%S::%S", requiredRole.name(), title.name());
+            authorities.add(new SimpleGrantedAuthority(authority));
+        });
 
-        return new CustomUserDetails(user.getUsername(), user.getPassword(), user.getId(), user.getRoles(), user.getTitles(), authorities);
+        return new CustomUserDetails(user.getUsername(), user.getPassword(), user.getId(), userRoles.stream().toList(), userTitles.stream().toList(), authorities);
     }
 }
