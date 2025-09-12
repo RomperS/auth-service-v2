@@ -17,10 +17,8 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByUsername(String username);
 
-    @Query("SELECT u FROM UserEntity u JOIN u.roles r WHERE r = :role")
-    List<UserEntity> findByRole(@Param("role") Role role);
-    @Query("SELECT u FROM UserEntity u JOIN u.titles t WHERE t = :title")
-    List<UserEntity> findByTitle(@Param("title") Title title);
+    @Query("SELECT u FROM UserEntity u JOIN u.roles r WHERE r = 'SUPER_ADMIN'")
+    Optional<UserEntity> findAdmin();
 
     Optional<UserEntity> findByDni(Long dni);
 }
