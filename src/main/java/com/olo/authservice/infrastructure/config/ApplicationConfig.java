@@ -7,10 +7,7 @@ import com.olo.authservice.application.service.ValidationService;
 import com.olo.authservice.application.usecase.permissions.AssignBoardRoleImpl;
 import com.olo.authservice.application.usecase.permissions.RevokeBoardRoleImpl;
 import com.olo.authservice.application.usecase.tokens.*;
-import com.olo.authservice.application.usecase.users.CreateUserImpl;
-import com.olo.authservice.application.usecase.users.LockUserImpl;
-import com.olo.authservice.application.usecase.users.UnlockUserImpl;
-import com.olo.authservice.application.usecase.users.UpdateUserImpl;
+import com.olo.authservice.application.usecase.users.*;
 import com.olo.authservice.application.usecase.validation.LoginImpl;
 import com.olo.authservice.application.usecase.validation.LogoutImpl;
 import com.olo.authservice.application.usecase.validation.SignupImpl;
@@ -22,6 +19,7 @@ import com.olo.authservice.infrastructure.adapters.repository.TokenRepositoryAda
 import com.olo.authservice.infrastructure.adapters.repository.UserRepositoryAdapter;
 import com.olo.authservice.infrastructure.repositories.JpaTokenRepository;
 import com.olo.authservice.infrastructure.security.JwtServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -52,12 +50,13 @@ public class ApplicationConfig {
     @Bean
     public UserService userService(UserRepositoryPort userRepositoryPort,
                                    PasswordServicePort passwordServicePort,
-                                   CommonStringPort commonStringPort,
                                    EmailServicePort emailServicePort,
-                                   TokenService tokenService) {
+                                   TokenService tokenService,
+                                   @Value("${base-url.signup}") String baseUrl) {
 
         return new UserService(
-                new CreateUserImpl(userRepositoryPort, commonStringPort, emailServicePort, tokenService),
+                new CreateUserImpl(userRepositoryPort, emailServicePort, tokenService, passwordServicePort, baseUrl),
+                new GetUserByDniImpl(userRepositoryPort),
                 new LockUserImpl(userRepositoryPort),
                 new UnlockUserImpl(userRepositoryPort),
                 new UpdateUserImpl(userRepositoryPort, passwordServicePort)
