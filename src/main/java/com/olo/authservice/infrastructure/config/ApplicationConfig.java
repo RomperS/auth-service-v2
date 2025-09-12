@@ -4,7 +4,9 @@ import com.olo.authservice.application.service.PermissionService;
 import com.olo.authservice.application.service.TokenService;
 import com.olo.authservice.application.service.UserService;
 import com.olo.authservice.application.service.ValidationService;
+import com.olo.authservice.application.usecase.permissions.AddTitleImpl;
 import com.olo.authservice.application.usecase.permissions.AssignBoardRoleImpl;
+import com.olo.authservice.application.usecase.permissions.RemoveTitleImpl;
 import com.olo.authservice.application.usecase.permissions.RevokeBoardRoleImpl;
 import com.olo.authservice.application.usecase.tokens.*;
 import com.olo.authservice.application.usecase.users.*;
@@ -66,7 +68,9 @@ public class ApplicationConfig {
     public PermissionService permissionService(UserRepositoryPort userRepositoryPort) {
         return new PermissionService(
                 new AssignBoardRoleImpl(userRepositoryPort),
-                new RevokeBoardRoleImpl(userRepositoryPort)
+                new RevokeBoardRoleImpl(userRepositoryPort),
+                new AddTitleImpl(userRepositoryPort),
+                new RemoveTitleImpl(userRepositoryPort)
         );
     }
 
