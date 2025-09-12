@@ -1,10 +1,7 @@
 package com.olo.authservice.domain.port.outbound;
 
 import com.olo.authservice.domain.model.User;
-import com.olo.permissions.Role;
-import com.olo.permissions.Title;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserRepositoryPort {
@@ -17,4 +14,5 @@ public interface UserRepositoryPort {
     Optional<User> findById(Long id);
     Optional<User> findByUsername(String username);
     Optional<User> findByDni(Long dni);
+    Optional<User> findSuperAdmin();
 }
