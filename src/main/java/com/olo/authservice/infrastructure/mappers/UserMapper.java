@@ -59,7 +59,9 @@ public class UserMapper {
 
         return new UserResponseDto(
                 user.id(),
-                user.username()
+                user.username(),
+                user.roles(),
+                user.titles()
         );
     }
 }
