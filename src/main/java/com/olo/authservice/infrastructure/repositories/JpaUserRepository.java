@@ -21,4 +21,6 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findByRole(@Param("role") Role role);
     @Query("SELECT u FROM UserEntity u JOIN u.titles t WHERE t = :title")
     List<UserEntity> findByTitle(@Param("title") Title title);
+
+    Optional<UserEntity> findByDni(Long dni);
 }
