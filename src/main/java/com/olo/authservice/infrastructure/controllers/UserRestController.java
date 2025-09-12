@@ -34,4 +34,10 @@ public class UserRestController {
         UserResponseDto response = UserMapper.userToResponseDto(userService.updateUser(command));
         return ResponseEntity.ok().body(response);
     }
+
+    @GetMapping("/{dni}")
+    public ResponseEntity<UserResponseDto> getUserByDni(@PathVariable Long dni) {
+        UserResponseDto response = UserMapper.userToResponseDto(userService.getUserByDni(dni));
+        return ResponseEntity.ok().body(response);
+    }
 }
