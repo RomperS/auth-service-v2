@@ -5,5 +5,5 @@ RUN mvn clean package -DskipTests
 
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY --from=build /app/target/discovery-service.jar discovery-service.jar
-CMD ["java", "-jar", "auth-service-0.2.jar"]
+COPY --from=build /app/target/auth-service-0.2.jar auth-service.jar
+CMD ["java", "-jar", "auth-service.jar"]
