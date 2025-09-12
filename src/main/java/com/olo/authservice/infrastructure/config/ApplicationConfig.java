@@ -15,8 +15,6 @@ import com.olo.authservice.application.usecase.validation.ValidateTokenImpl;
 import com.olo.authservice.domain.port.outbound.*;
 import com.olo.authservice.infrastructure.adapters.EmailServiceAdapter;
 import com.olo.authservice.infrastructure.adapters.kafka.KafkaProducerAdapter;
-import com.olo.authservice.infrastructure.adapters.repository.TokenRepositoryAdapter;
-import com.olo.authservice.infrastructure.adapters.repository.UserRepositoryAdapter;
 import com.olo.authservice.infrastructure.repositories.JpaTokenRepository;
 import com.olo.authservice.infrastructure.security.JwtServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,16 +24,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 public class ApplicationConfig {
-
-    @Bean
-    public UserRepositoryPort userRepositoryPort(UserRepositoryAdapter userRepositoryAdapter) {
-        return userRepositoryAdapter;
-    }
-
-    @Bean
-    public TokenRepositoryPort tokenRepositoryPort(TokenRepositoryAdapter tokenRepositoryAdapter) {
-        return tokenRepositoryAdapter;
-    }
 
     @Bean
     public KafkaProducerPort kafkaProducerPort(KafkaProducerAdapter kafkaProducerAdapter) {
