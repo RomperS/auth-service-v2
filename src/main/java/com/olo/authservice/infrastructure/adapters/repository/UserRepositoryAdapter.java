@@ -26,6 +26,11 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
+    public boolean existByDni(Long dni) {
+        return jpaUserRepository.existsByDni(dni);
+    }
+
+    @Override
     @Transactional
     public User save(User user) {
         UserEntity userEntity = UserMapper.modelToEntity(user);

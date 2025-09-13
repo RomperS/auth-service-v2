@@ -7,6 +7,7 @@ import java.util.Optional;
 public interface UserRepositoryPort {
 
     boolean existByUsername(String username);
+    boolean existByDni(Long dni);
 
     User save(User user);
     void delete(Long id);
