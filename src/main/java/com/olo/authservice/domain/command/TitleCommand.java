@@ -1,8 +1,9 @@
 package com.olo.authservice.domain.command;
 
-import com.olo.exceptions.permissions.InvalidPermissionValueException;
-import com.olo.permissions.Role;
-import com.olo.permissions.Title;
+
+import com.olo.internalauthlibrary.exceptions.permissions.InvalidPermissionValueException;
+import com.olo.internalauthlibrary.permissions.Role;
+import com.olo.internalauthlibrary.permissions.Title;
 
 public record TitleCommand(
         Long userId,

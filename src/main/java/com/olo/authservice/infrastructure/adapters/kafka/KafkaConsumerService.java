@@ -2,11 +2,10 @@ package com.olo.authservice.infrastructure.adapters.kafka;
 
 import com.olo.authservice.application.service.UserService;
 import com.olo.authservice.domain.command.CreateUserCommand;
+import com.olo.authservice.domain.exception.DomainException;
 import com.olo.authservice.domain.exception.kafka.InvalidMessageFormatException;
 import com.olo.authservice.domain.port.outbound.KafkaProducerPort;
-import com.olo.exceptions.DomainException;
-import com.olo.permissions.Role;
-import com.olo.permissions.Title;
+import com.olo.internalauthlibrary.permissions.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

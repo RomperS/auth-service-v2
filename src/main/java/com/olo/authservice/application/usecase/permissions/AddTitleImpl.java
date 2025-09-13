@@ -5,8 +5,9 @@ import com.olo.authservice.domain.exception.user.UserNotFoundException;
 import com.olo.authservice.domain.model.User;
 import com.olo.authservice.domain.port.inbound.permissions.AddTitlePort;
 import com.olo.authservice.domain.port.outbound.UserRepositoryPort;
-import com.olo.exceptions.permissions.InvalidPermissionValueException;
-import com.olo.permissions.Title;
+import com.olo.internalauthlibrary.exceptions.permissions.InvalidPermissionValueException;
+
+import com.olo.internalauthlibrary.permissions.Title;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

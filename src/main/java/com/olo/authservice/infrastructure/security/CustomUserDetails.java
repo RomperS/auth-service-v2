@@ -1,7 +1,6 @@
 package com.olo.authservice.infrastructure.security;
 
-import com.olo.permissions.Role;
-import com.olo.permissions.Title;
+import com.olo.internalauthlibrary.permissions.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

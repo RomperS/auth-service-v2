@@ -5,13 +5,10 @@ import com.olo.authservice.domain.port.outbound.UserRepositoryPort;
 import com.olo.authservice.infrastructure.entities.UserEntity;
 import com.olo.authservice.infrastructure.mappers.UserMapper;
 import com.olo.authservice.infrastructure.repositories.JpaUserRepository;
-import com.olo.permissions.Role;
-import com.olo.permissions.Title;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor

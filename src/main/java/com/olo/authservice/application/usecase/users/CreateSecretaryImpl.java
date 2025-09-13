@@ -7,8 +7,7 @@ import com.olo.authservice.domain.model.User;
 import com.olo.authservice.domain.port.inbound.users.CreateSecretaryPort;
 import com.olo.authservice.domain.port.outbound.PasswordServicePort;
 import com.olo.authservice.domain.port.outbound.UserRepositoryPort;
-import com.olo.permissions.Role;
-import com.olo.permissions.Title;
+import com.olo.internalauthlibrary.permissions.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

@@ -13,7 +13,8 @@ import com.olo.authservice.domain.port.outbound.JwtServicePort;
 import com.olo.authservice.domain.port.outbound.KafkaProducerPort;
 import com.olo.authservice.domain.result.AccessTokenResult;
 import com.olo.authservice.domain.result.AuthResult;
-import com.olo.permissions.Role;
+
+import com.olo.internalauthlibrary.permissions.Role;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
@@ -51,7 +52,7 @@ public class SignupImpl implements SignupPort {
         String accessToken = tokenService.generateAccessToken(refreshToken.refreshToken());
         Instant expireAt = Instant.now().plusMillis(jwtServicePort.getAccessTokenExpiration());
 
-        List<Role> roles = updatedUser.roles().stream().filter(c -> c != com.olo.permissions.Role.AUXILIARY_ADMIN).toList();
+        List<Role> roles = updatedUser.roles().stream().filter(c -> c != Role.AUXILIARY_ADMIN).toList();
         if (roles.size() != 1){
             throw new MalformedRecordException("Invalid roles");
         }

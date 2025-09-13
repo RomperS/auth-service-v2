@@ -1,6 +1,6 @@
 package com.olo.authservice.domain.exception.user;
 
-import com.olo.exceptions.DomainException;
+import com.olo.authservice.domain.exception.DomainException;
 
 public class UserNotFoundException extends DomainException {
     public UserNotFoundException(String message) {

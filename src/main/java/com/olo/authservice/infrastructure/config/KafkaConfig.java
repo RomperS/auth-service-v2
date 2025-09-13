@@ -1,6 +1,7 @@
 package com.olo.authservice.infrastructure.config;
 
-import com.olo.exceptions.DomainException;
+import com.olo.authservice.domain.exception.DomainException;
+import com.olo.internalauthlibrary.exceptions.PermissionException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -21,7 +22,7 @@ public class KafkaConfig {
                 backOff
         );
 
-        errorHandler.addNotRetryableExceptions(DomainException.class);
+        errorHandler.addNotRetryableExceptions(DomainException.class, PermissionException.class);
 
         return errorHandler;
     }

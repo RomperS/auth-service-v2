@@ -2,8 +2,8 @@ package com.olo.authservice.infrastructure.security;
 
 import com.olo.authservice.infrastructure.entities.UserEntity;
 import com.olo.authservice.infrastructure.repositories.JpaUserRepository;
-import com.olo.exceptions.permissions.InvalidPermissionValueException;
-import com.olo.permissions.*;
+import com.olo.internalauthlibrary.exceptions.permissions.InvalidPermissionValueException;
+import com.olo.internalauthlibrary.permissions.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

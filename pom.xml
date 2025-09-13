@@ -112,7 +112,7 @@
         </dependency>
         <dependency>
             <groupId>com.olo</groupId>
-            <artifactId>auth-internal-lib</artifactId>
+            <artifactId>internal-auth-library</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

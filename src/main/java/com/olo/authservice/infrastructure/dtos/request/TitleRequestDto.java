@@ -1,6 +1,6 @@
 package com.olo.authservice.infrastructure.dtos.request;
 
-import com.olo.permissions.Title;
+import com.olo.internalauthlibrary.permissions.Title;
 
 public record TitleRequestDto(
         Long userId,

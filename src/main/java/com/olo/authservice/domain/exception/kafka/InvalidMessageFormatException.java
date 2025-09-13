@@ -1,6 +1,6 @@
 package com.olo.authservice.domain.exception.kafka;
 
-import com.olo.exceptions.DomainException;
+import com.olo.authservice.domain.exception.DomainException;
 
 public class InvalidMessageFormatException extends DomainException {
     public InvalidMessageFormatException(String message) {

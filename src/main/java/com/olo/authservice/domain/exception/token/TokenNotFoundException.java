@@ -1,6 +1,6 @@
 package com.olo.authservice.domain.exception.token;
 
-import com.olo.exceptions.DomainException;
+import com.olo.authservice.domain.exception.DomainException;
 
 public class TokenNotFoundException extends DomainException {
     public TokenNotFoundException(String message) {

@@ -1,7 +1,6 @@
 package com.olo.authservice.infrastructure.entities;
 
-import com.olo.permissions.Role;
-import com.olo.permissions.Title;
+import com.olo.internalauthlibrary.permissions.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

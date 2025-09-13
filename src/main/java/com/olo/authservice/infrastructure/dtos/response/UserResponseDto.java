@@ -1,6 +1,6 @@
 package com.olo.authservice.infrastructure.dtos.response;
 
-import com.olo.permissions.*;
+import com.olo.internalauthlibrary.permissions.*;
 
 import java.util.List;
 
