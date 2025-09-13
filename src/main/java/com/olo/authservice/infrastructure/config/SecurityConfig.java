@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("users/lock/**", "/users/unlock/**", "/permissions/**")
                             .hasAnyAuthority("AUTHORITY_SUPER_ADMIN::PRINCIPAL", "AUTHORITY_ADMIN::SECRETARY")
+                        .requestMatchers("users/secretary").hasAuthority("AUTHORITY_SUPER_ADMIN::PRINCIPAL")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
