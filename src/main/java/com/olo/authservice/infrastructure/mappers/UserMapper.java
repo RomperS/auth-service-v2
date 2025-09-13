@@ -1,7 +1,9 @@
 package com.olo.authservice.infrastructure.mappers;
 
+import com.olo.authservice.domain.command.CreateSecretaryCommand;
 import com.olo.authservice.domain.command.UpdateUserCommand;
 import com.olo.authservice.domain.model.User;
+import com.olo.authservice.infrastructure.dtos.request.CreateSecretaryRequestDto;
 import com.olo.authservice.infrastructure.dtos.request.UpdateUserRequestDto;
 import com.olo.authservice.infrastructure.dtos.response.UserResponseDto;
 import com.olo.authservice.infrastructure.entities.UserEntity;
@@ -62,6 +64,18 @@ public class UserMapper {
                 user.username(),
                 user.roles(),
                 user.titles()
+        );
+    }
+
+    public static CreateSecretaryCommand secretaryRequestDtoToCommand(CreateSecretaryRequestDto dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        return new CreateSecretaryCommand(
+                dto.username(),
+                Long.parseLong(dto.dni()),
+                dto.password()
         );
     }
 }
