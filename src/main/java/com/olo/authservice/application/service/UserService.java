@@ -1,6 +1,7 @@
 package com.olo.authservice.application.service;
 
 import com.olo.authservice.application.usecase.users.*;
+import com.olo.authservice.domain.command.CreateSecretaryCommand;
 import com.olo.authservice.domain.command.CreateUserCommand;
 import com.olo.authservice.domain.command.UpdateUserCommand;
 import com.olo.authservice.domain.model.User;
@@ -8,9 +9,10 @@ import com.olo.authservice.domain.port.inbound.users.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UserService implements CreateUserPort, GetUserByDniPort, LockUserPort, UnlockUserPort, UpdateUserPort {
+public class UserService implements CreateUserPort, CreateSecretaryPort, GetUserByDniPort, LockUserPort, UnlockUserPort, UpdateUserPort {
 
     private final CreateUserImpl createUserImpl;
+    private final CreateSecretaryImpl createSecretaryImpl;
     private final GetUserByDniImpl getUserByDniImpl;
     private final LockUserImpl lockUserImpl;
     private final UnlockUserImpl unlockUserImpl;
@@ -39,5 +41,10 @@ public class UserService implements CreateUserPort, GetUserByDniPort, LockUserPo
     @Override
     public User updateUser(UpdateUserCommand command) {
         return updateUserImpl.updateUser(command);
+    }
+
+    @Override
+    public User createSecretary(CreateSecretaryCommand command) {
+        return createSecretaryImpl.createSecretary(command);
     }
 }

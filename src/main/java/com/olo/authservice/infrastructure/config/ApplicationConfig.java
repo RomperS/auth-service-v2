@@ -46,6 +46,7 @@ public class ApplicationConfig {
 
         return new UserService(
                 new CreateUserImpl(userRepositoryPort, emailServicePort, tokenService, passwordServicePort, baseUrl),
+                new CreateSecretaryImpl(userRepositoryPort, passwordServicePort),
                 new GetUserByDniImpl(userRepositoryPort),
                 new LockUserImpl(userRepositoryPort),
                 new UnlockUserImpl(userRepositoryPort),
