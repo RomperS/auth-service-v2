@@ -134,22 +134,25 @@ public class JwtServiceImpl implements JwtServicePort {
     protected String buildToken(Map<String, Object> claims, String subject, long expirationMillis) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expirationMillis);
+
+        Map<String, Object> finalClaims = new HashMap<>(claims);
+        finalClaims.put("sub", subject);
+        finalClaims.put("jti", UUID.randomUUID().toString());
+        finalClaims.put("iat", now);
+        finalClaims.put("exp", expiryDate);
+
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setId(UUID.randomUUID().toString())
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
+                .claims(finalClaims)
                 .signWith(key)
                 .compact();
     }
 
     protected <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
         return claimsResolver.apply(claims);
     }
 
@@ -188,10 +191,10 @@ public class JwtServiceImpl implements JwtServicePort {
 
     protected boolean validateSignature(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
+            Jwts.parser()
+                    .verifyWith(key)
                     .build()
-                    .parseClaimsJws(token);
+                    .parseSignedClaims(token);
             return true;
         } catch (JwtException e) {
             throw new InvalidTokenException("Token signature is not valid.", e);
