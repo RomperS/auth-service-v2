@@ -20,6 +20,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -52,8 +53,17 @@ public class JwtServiceImpl implements JwtServicePort {
 
         if (userDetails instanceof CustomUserDetails customDetails) {
             claims.put("userId", customDetails.getId());
-            claims.put("roles", customDetails.getRole());
-            claims.put("titles", customDetails.getTitle());
+
+            List<String> roles = customDetails.getRoles().stream()
+                    .map(Enum::name)
+                    .collect(Collectors.toList());
+
+            List<String> titles = customDetails.getTitles().stream()
+                    .map(Enum::name)
+                    .collect(Collectors.toList());
+
+            claims.put("roles", roles);
+            claims.put("titles", titles);
         }
         claims.put("type", "access_token");
 
