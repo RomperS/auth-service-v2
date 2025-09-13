@@ -112,7 +112,7 @@
         </dependency>
         <dependency>
             <groupId>com.olo</groupId>
-            <artifactId>core-permissions-lib</artifactId>
+            <artifactId>auth-internal-lib</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
