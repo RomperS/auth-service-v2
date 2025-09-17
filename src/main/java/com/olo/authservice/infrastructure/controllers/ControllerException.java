@@ -6,7 +6,6 @@ import com.olo.authservice.domain.exception.token.MissingTokenException;
 import com.olo.authservice.domain.exception.token.TokenRevokedException;
 import com.olo.authservice.domain.exception.user.*;
 import com.olo.authservice.utils.HttpResponseUtil;
-import com.olo.internalauthlibrary.exceptions.permissions.InvalidPermissionValueException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
